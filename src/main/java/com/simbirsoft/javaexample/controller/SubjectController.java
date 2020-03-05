@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+// TODO: Пользуйся форматированием и не оставляй пробелы в конце тела метода
 @RestController
 public class SubjectController {
 
@@ -26,6 +27,7 @@ public class SubjectController {
 
     @GetMapping("/subjects")
     public ResponseEntity<List<SubjectDto>> getSubjects(HttpServletRequest request, @RequestParam(name = "course") Integer course) {
+        // TODO: Ради чего вызываем тут этот метод?
         request.getHeader(HttpHeaders.ACCEPT);
         return ResponseEntity.ok(subjectService.getSubject(course));
 
@@ -41,11 +43,14 @@ public class SubjectController {
     public ResponseEntity addSubjects(@RequestBody SubjectDto subjectDto){
         boolean result = subjectService.addSubject(subjectDto);
         if(!result){
+            // TODO: Хорошо бы еще добавить DTO с одним полем - текстом ошибки, которое будет возвращаться при ошибках
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
         return ResponseEntity.status(HttpStatus.OK).build();
 
     }
+
+    // TODO: А где методы обновления и удаления?
 
 
 
