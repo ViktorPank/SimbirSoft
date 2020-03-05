@@ -3,24 +3,26 @@ package com.simbirsoft.javaexample.dto;
 
 // TODO: Хорошо бы сущность дополнить
 // TODO: На вскидку можно добавить список преподавателей, которые его ведут и id предмета
-public class SubjectDto {
-    private String title;
+public class UserDTO {
+    private String name;
     private Integer course;
 
-    public SubjectDto(String title, Integer course) {
-        this.title = title;
+    public UserDTO(String name, Integer course) {
+        this.name = name;
         this.course = course;
     }
 
-    public SubjectDto() {
+    public UserDTO() {
+
     }
 
-    public String getTitle() {
-        return title;
+
+    public String getName() {
+        return name;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Integer getCourse() {

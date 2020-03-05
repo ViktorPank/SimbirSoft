@@ -1,7 +1,7 @@
 package com.simbirsoft.javaexample.controller;
 
-import com.simbirsoft.javaexample.dto.SubjectDto;
-import com.simbirsoft.javaexample.service.SubjectService;
+import com.simbirsoft.javaexample.dto.UserDTO;
+import com.simbirsoft.javaexample.service.UserService;
 import com.thoughtworks.xstream.XStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -16,18 +16,18 @@ import java.util.List;
 @RestController
 public class SubjectController {
 
-    private SubjectService subjectService;
+    private UserService userService;
 
     @Autowired
-    public SubjectController(SubjectService subjectService) {
-        this.subjectService = subjectService;
+    public SubjectController(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping("/subjects")
-    public ResponseEntity<List<SubjectDto>> getSubjects(HttpServletResponse response, HttpServletRequest request, @RequestParam(name = "course") Integer course) {
+    public ResponseEntity<List<UserDTO>> getSubjects(HttpServletResponse response, HttpServletRequest request, @RequestParam(name = "course") Integer course) {
         request.getHeader(HttpHeaders.ACCEPT);
         response.setHeader(HttpHeaders.ACCEPT, "application/json");
-        return ResponseEntity.ok(subjectService.getSubject(course));
+        return ResponseEntity.ok(userService.getSubject(course));
 
     }
 
@@ -37,9 +37,9 @@ public class SubjectController {
      * @return
      */
     @RequestMapping(value = "/shotki/{course}",produces = {"application/json"},method = RequestMethod.GET)
-    public ResponseEntity<List<SubjectDto>> getShotkiJSON(@PathVariable(name = "course") Integer course) {
+    public ResponseEntity<List<UserDTO>> getShotkiJSON(@PathVariable(name = "course") Integer course) {
 
-        return ResponseEntity.ok(subjectService.getSubject(course));
+        return ResponseEntity.ok(userService.getSubject(course));
     }
 
     @RequestMapping(value = "/shotki/{course}",produces = {"application/xhtml+xml"},method = RequestMethod.GET)
@@ -48,19 +48,19 @@ public class SubjectController {
         response.setHeader(HttpHeaders.ACCEPT, "application/xhtml+xml");
 
         XStream xStream = new XStream();
-        String xml = xStream.toXML(subjectService.getSubject(course));
+        String xml = xStream.toXML(userService.getSubject(course));
         return ResponseEntity.ok(xml);
     }
 
     @GetMapping("/subjects/{course}")
-    public ResponseEntity<List<SubjectDto>> getSubject(@PathVariable(name = "course") Integer course) {
-        return ResponseEntity.ok(subjectService.getSubject(course));
+    public ResponseEntity<List<UserDTO>> getSubject(@PathVariable(name = "course") Integer course) {
+        return ResponseEntity.ok(userService.getSubject(course));
 
     }
 
     @PostMapping("/subjects")
-    public ResponseEntity addSubjects(@RequestBody SubjectDto subjectDto){
-        boolean result = subjectService.addSubject(subjectDto);
+    public ResponseEntity addSubjects(@RequestBody UserDTO subjectDto){
+        boolean result = userService.addSubject(subjectDto);
         if(!result){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
