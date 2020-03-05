@@ -23,17 +23,13 @@ public class SubjectServiceImpl implements SubjectService {
     public boolean addSubject(SubjectDto subjectDto) {
         return subjectDB.add(subjectDto);
 
-        // TODO: Не коммитим закомменченный код
-//        if (isSuceed) return ResponseEntity.ok().body("Запрос добавлен");
-//        else return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Запрос не обработан");
     }
 
     @Override
     public List<SubjectDto> getSubject(Integer course) {
 
-        // TODO: Объекты через двойное равно не сравниваем, для этого есть метод equals
         return subjectDB.stream()
-                .filter(SubjectDto -> SubjectDto.getCourse() == course)
+                .filter(SubjectDto -> SubjectDto.getCourse().equals(course))
                 .collect(Collectors.toList());
     }
 }
