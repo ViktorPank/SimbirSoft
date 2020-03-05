@@ -43,14 +43,13 @@ public class SubjectController {
     }
 
     @RequestMapping(value = "/shotki/{course}",produces = {"application/xhtml+xml"},method = RequestMethod.GET)
-    public String getShotkiXML(HttpServletResponse response , @PathVariable(name = "course") Integer course) {
+    public ResponseEntity<String> getShotkiXML(HttpServletResponse response , @PathVariable(name = "course") Integer course) {
 
         response.setHeader(HttpHeaders.ACCEPT, "application/xhtml+xml");
 
         XStream xStream = new XStream();
         String xml = xStream.toXML(subjectService.getSubject(course));
-//        return ResponseEntity.ok(subjectService.getSubject(course));
-        return xml;
+        return ResponseEntity.ok(xml);
     }
 
     @GetMapping("/subjects/{course}")
