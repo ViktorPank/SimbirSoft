@@ -3,6 +3,7 @@ package com.simbirsoft.javaexample.controller;
 import com.simbirsoft.javaexample.dto.SubjectDto;
 import com.simbirsoft.javaexample.service.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,12 +17,16 @@ import java.util.stream.Collectors;
 @RestController
 public class SubjectController {
 
-    @Autowired
     private SubjectService subjectService;
 
+    @Autowired
+    public SubjectController(SubjectService subjectService) {
+        this.subjectService = subjectService;
+    }
 
     @GetMapping("/subjects")
     public ResponseEntity<List<SubjectDto>> getSubjects(HttpServletRequest request, @RequestParam(name = "course") Integer course) {
+        request.getHeader(HttpHeaders.ACCEPT);
         return ResponseEntity.ok(subjectService.getSubject(course));
 
     }
