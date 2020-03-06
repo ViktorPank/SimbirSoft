@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
     public List<UserDTO> getSubject(Integer course) {
 
         return subjectDB.stream()
-                .filter(UserDto -> UserDto.getCourse().equals(course))
+                .filter(UserDto -> UserDto.getAge().equals(course))
                 .collect(Collectors.toList());
     }
 }
