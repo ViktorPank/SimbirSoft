@@ -3,7 +3,6 @@ package com.simbirsoft.javaexample.service;
 import com.simbirsoft.javaexample.dto.UserDTO;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -27,10 +26,33 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDTO> getSubject(Integer course) {
+    public boolean deleteUser(Integer id) {
+        for (int i = 0; i < subjectDB.size() ; i++) {
+            if (subjectDB.get(i).getId().equals(id)) {
+                subjectDB.remove(i);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    @Override
+    public List<UserDTO> getSubject(Integer id) {
 
         return subjectDB.stream()
-                .filter(UserDto -> UserDto.getAge().equals(course))
+                .filter(UserDto -> UserDto.getId().equals(id))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean updateUser(UserDTO userDTO) {
+        for (int i = 0; i < subjectDB.size() ; i++) {
+            if (userDTO.getId().equals(subjectDB.get(i).getId())){
+                subjectDB.set(i, userDTO);
+                return true;
+            }
+        }
+        return false;
     }
 }

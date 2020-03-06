@@ -25,37 +25,37 @@ public class SubjectController {
 
     @GetMapping("/subjects")
     public ResponseEntity<List<UserDTO>> getSubjects(HttpServletResponse response, HttpServletRequest request, @RequestParam(name = "course") Integer course) {
-        request.getHeader(HttpHeaders.ACCEPT);
-        response.setHeader(HttpHeaders.ACCEPT, "application/json");
         return ResponseEntity.ok(userService.getSubject(course));
 
     }
 
-    @RequestMapping(value = "/shotki/{course}",produces = {"application/json"},method = RequestMethod.GET)
-    public ResponseEntity<List<UserDTO>> getDataJSON(@PathVariable(name = "course") Integer course) {
+    //Маппинг который принимает и возвращает json
+    @RequestMapping(value = "/user/{id}",produces = {"application/json"},method = RequestMethod.GET)
+    public ResponseEntity<List<UserDTO>> getDataJSON(@PathVariable(name = "id") Integer id) {
 
-        return ResponseEntity.ok(userService.getSubject(course));
+        return ResponseEntity.ok(userService.getSubject(id));
     }
 
-    @RequestMapping(value = "/shotki/{course}",produces = {"application/xhtml+xml"},method = RequestMethod.GET)
-    public ResponseEntity<String> getShotkiXML(HttpServletResponse response , @PathVariable(name = "course") Integer course) {
+    //Маппинг который принимает и возвращает xml
+    @RequestMapping(value = "/user/{id}",produces = {"application/xhtml+xml"},method = RequestMethod.GET)
+    public ResponseEntity<String> getShotkiXML(HttpServletResponse response , @PathVariable(name = "id") Integer id) {
 
         response.setHeader(HttpHeaders.ACCEPT, "application/xhtml+xml");
-
         XStream xStream = new XStream();
-        String xml = xStream.toXML(userService.getSubject(course));
+        String xml = xStream.toXML(userService.getSubject(id));
+
         return ResponseEntity.ok(xml);
     }
 
-    @GetMapping("/subjects/{course}")
-    public ResponseEntity<List<UserDTO>> getSubject(@PathVariable(name = "course") Integer course) {
-        return ResponseEntity.ok(userService.getSubject(course));
+    @GetMapping("/user/{id}")
+    public ResponseEntity<List<UserDTO>> getSubject(@PathVariable(name = "id") Integer id) {
+        return ResponseEntity.ok(userService.getSubject(id));
 
     }
 
-    @PostMapping("/subjects")
-    public ResponseEntity addSubjects(@RequestBody UserDTO subjectDto){
-        boolean result = userService.addSubject(subjectDto);
+    @PostMapping("/addUser")
+    public ResponseEntity addSubjects(@RequestBody UserDTO user){
+        boolean result = userService.addSubject(user);
         if(!result){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
@@ -63,6 +63,22 @@ public class SubjectController {
 
     }
 
+    @DeleteMapping(value = "/deleteUser/{id}")
+    public ResponseEntity deleteUser(@PathVariable(name = "id") Integer id){
+        boolean result = userService.deleteUser(id);
+        if(!result){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
 
+    @PutMapping(value = "/updateUser/{id}")
+    public ResponseEntity updateUser(@RequestBody UserDTO user ){
+        boolean result = userService.updateUser(user);
+        if(!result){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
 
 }
