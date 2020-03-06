@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface UserService {
     /**
-     * метод добавления предмета в БД универа
+     * Метод добавления юзера в БД
      *
-     * @param userDTO ДТО предмета
+     * @param userDTO обьект юзера которого нужно добавить
      * @return true Если сохранение было успешно, false в других случаях
      */
     boolean addSubject(UserDTO userDTO);
@@ -19,7 +19,7 @@ public interface UserService {
      * @param id пользователя которого нужно получить
      * @return список данных юзера по id
      */
-    List<UserDTO> getSubject(Integer id);
+    List<UserDTO> getUser(Integer id);
 
     /**
      * Метод удаления юзера из листа
@@ -40,7 +40,7 @@ public interface UserService {
     /**
      * Метод возвращает всех юзеров которые есть
      *
-     * @return спсико юзеров
+     * @return список юзеров
      */
     List<UserDTO> getUsers();
 }

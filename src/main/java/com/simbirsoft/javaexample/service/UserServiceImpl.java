@@ -38,8 +38,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDTO> getSubject(Integer id) {
-
+    public List<UserDTO> getUser(Integer id) {
         return subjectDB.stream()
                 .filter(UserDto -> UserDto.getId().equals(id))
                 .collect(Collectors.toList());

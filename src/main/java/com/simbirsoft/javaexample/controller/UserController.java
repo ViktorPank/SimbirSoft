@@ -13,29 +13,26 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
-@org.springframework.web.bind.annotation.RestController
-public class RestController {
+public class UserController {
 
     private UserService userService;
 
     @Autowired
-    public RestController(UserService userService) {
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 
     //возращает всех юзеров
-    @GetMapping("/users")
-    public ResponseEntity<List<UserDTO>> getUsers(HttpServletResponse response, HttpServletRequest request) {
-
+    @GetMapping("/user")
+    public ResponseEntity<List<UserDTO>> getUsers() {
         return ResponseEntity.ok(userService.getUsers());
-
     }
 
     //Маппинг который принимает и возвращает json по id юзера
     @RequestMapping(value = "/user/{id}", produces = {"application/json"}, method = RequestMethod.GET)
     public ResponseEntity<List<UserDTO>> getDataJSON(@PathVariable(name = "id") Integer id) {
 
-        return ResponseEntity.ok(userService.getSubject(id));
+        return ResponseEntity.ok(userService.getUser(id));
     }
 
     //Маппинг который принимает и возвращает xml по id юзера
@@ -44,7 +41,7 @@ public class RestController {
 
         response.setHeader(HttpHeaders.ACCEPT, "application/xhtml+xml");
         XStream xStream = new XStream();
-        String xml = xStream.toXML(userService.getSubject(id));
+        String xml = xStream.toXML(userService.getUser(id));
 
         return ResponseEntity.ok(xml);
     }
@@ -52,7 +49,7 @@ public class RestController {
     //Маппинг который принимает и возвращает данные по id юзера
     @GetMapping("/user/{id}")
     public ResponseEntity<List<UserDTO>> getUser(@PathVariable(name = "id") Integer id) {
-        return ResponseEntity.ok(userService.getSubject(id));
+        return ResponseEntity.ok(userService.getUser(id));
 
     }
 

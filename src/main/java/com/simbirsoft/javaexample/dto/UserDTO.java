@@ -4,10 +4,11 @@ package com.simbirsoft.javaexample.dto;
 import java.util.List;
 
 public class UserDTO {
-    private Integer id;
     private String name;
     private Integer age;
     private List<String> family;
+    private Integer id;
+
 
     public UserDTO(String name, Integer age, List<String> family, Integer id) {
         this.name = name;
