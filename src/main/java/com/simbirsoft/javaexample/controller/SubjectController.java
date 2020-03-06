@@ -23,22 +23,24 @@ public class SubjectController {
         this.userService = userService;
     }
 
-    @GetMapping("/subjects")
-    public ResponseEntity<List<UserDTO>> getSubjects(HttpServletResponse response, HttpServletRequest request, @RequestParam(name = "course") Integer course) {
-        return ResponseEntity.ok(userService.getSubject(course));
+    //возращает всех юзеров
+    @GetMapping("/users")
+    public ResponseEntity<List<UserDTO>> getUsers(HttpServletResponse response, HttpServletRequest request) {
+
+        return ResponseEntity.ok(userService.getUsers());
 
     }
 
-    //Маппинг который принимает и возвращает json
-    @RequestMapping(value = "/user/{id}",produces = {"application/json"},method = RequestMethod.GET)
+    //Маппинг который принимает и возвращает json по id юзера
+    @RequestMapping(value = "/user/{id}", produces = {"application/json"}, method = RequestMethod.GET)
     public ResponseEntity<List<UserDTO>> getDataJSON(@PathVariable(name = "id") Integer id) {
 
         return ResponseEntity.ok(userService.getSubject(id));
     }
 
-    //Маппинг который принимает и возвращает xml
-    @RequestMapping(value = "/user/{id}",produces = {"application/xhtml+xml"},method = RequestMethod.GET)
-    public ResponseEntity<String> getShotkiXML(HttpServletResponse response , @PathVariable(name = "id") Integer id) {
+    //Маппинг который принимает и возвращает xml по id юзера
+    @RequestMapping(value = "/user/{id}", produces = {"application/xhtml+xml"}, method = RequestMethod.GET)
+    public ResponseEntity<String> getUserXML(HttpServletResponse response, @PathVariable(name = "id") Integer id) {
 
         response.setHeader(HttpHeaders.ACCEPT, "application/xhtml+xml");
         XStream xStream = new XStream();
@@ -47,35 +49,39 @@ public class SubjectController {
         return ResponseEntity.ok(xml);
     }
 
+    //Маппинг который принимает и возвращает данные по id юзера
     @GetMapping("/user/{id}")
-    public ResponseEntity<List<UserDTO>> getSubject(@PathVariable(name = "id") Integer id) {
+    public ResponseEntity<List<UserDTO>> getUser(@PathVariable(name = "id") Integer id) {
         return ResponseEntity.ok(userService.getSubject(id));
 
     }
 
+    //Маппинг добавления юезра и возвращает статус Http
     @PostMapping("/addUser")
-    public ResponseEntity addSubjects(@RequestBody UserDTO user){
+    public ResponseEntity addUser(@RequestBody UserDTO user) {
         boolean result = userService.addSubject(user);
-        if(!result){
+        if (!result) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
         return ResponseEntity.status(HttpStatus.OK).build();
 
     }
 
+    //Маппинг удаления юезра и возвращает статус Http
     @DeleteMapping(value = "/deleteUser/{id}")
-    public ResponseEntity deleteUser(@PathVariable(name = "id") Integer id){
+    public ResponseEntity deleteUser(@PathVariable(name = "id") Integer id) {
         boolean result = userService.deleteUser(id);
-        if(!result){
+        if (!result) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    //Маппинг обновления юезра и возвращает статус Http
     @PutMapping(value = "/updateUser/{id}")
-    public ResponseEntity updateUser(@RequestBody UserDTO user ){
+    public ResponseEntity updateUser(@RequestBody UserDTO user) {
         boolean result = userService.updateUser(user);
-        if(!result){
+        if (!result) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
         return ResponseEntity.status(HttpStatus.OK).build();

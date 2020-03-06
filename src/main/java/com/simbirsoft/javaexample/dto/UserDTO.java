@@ -4,6 +4,7 @@ package com.simbirsoft.javaexample.dto;
 import java.util.List;
 
 public class UserDTO {
+    private Integer id;
     private String name;
     private Integer age;
     private List<String> family;
@@ -34,8 +35,6 @@ public class UserDTO {
     public void setId(Integer id) {
         this.id = id;
     }
-
-    private Integer id;
 
 
     public String getName() {
