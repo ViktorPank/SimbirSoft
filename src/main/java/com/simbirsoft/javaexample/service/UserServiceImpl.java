@@ -27,6 +27,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean deleteUser(Integer id) {
+        // TODO: Используй subjectDB.stream().filter() чтобы получать нужный или переделай List на Map, где ключом будет id
         for (int i = 0; i < subjectDB.size(); i++) {
             if (subjectDB.get(i).getId().equals(id)) {
                 subjectDB.remove(i);
@@ -37,6 +38,7 @@ public class UserServiceImpl implements UserService {
         return false;
     }
 
+    // TODO: Лишний пробел в методе
     @Override
     public List<UserDTO> getSubject(Integer id) {
 
@@ -45,6 +47,8 @@ public class UserServiceImpl implements UserService {
                 .collect(Collectors.toList());
     }
 
+    // TODO: Обновление - это не замена целиком
+    // TODO: Ты должен найти в "бд" объект с id == id из userDTO и заменить эквивалентно те поля, которые в userDTO != null
     @Override
     public boolean updateUser(UserDTO userDTO) {
         for (int i = 0; i < subjectDB.size(); i++) {

@@ -19,6 +19,7 @@ public interface UserService {
      * @param id пользователя которого нужно получить
      * @return список данных юзера по id
      */
+    // TODO: Почему getSubject?
     List<UserDTO> getSubject(Integer id);
 
     /**

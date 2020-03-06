@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
+// TODO: Зачем полный путь? Переименнуй свой контроллер в UserController и юзай импорты
 @org.springframework.web.bind.annotation.RestController
 public class RestController {
 
@@ -23,14 +24,19 @@ public class RestController {
         this.userService = userService;
     }
 
+    // TODO: Так документацию никто не пишет, если хочешь красиво, то пиши через /** со всеми параметрами
     //возращает всех юзеров
+
+    // TODO: Оставь просто user, не стоит мешать множественное число и единственное
     @GetMapping("/users")
+    // TODO: Неиспользующиеся параметры и лишний пробелы в теле метода
     public ResponseEntity<List<UserDTO>> getUsers(HttpServletResponse response, HttpServletRequest request) {
 
         return ResponseEntity.ok(userService.getUsers());
 
     }
 
+    // TODO: Либо везде используй @Get/Post/Put/DeleteMapping, либо везде @RequestMapping + method = ...
     //Маппинг который принимает и возвращает json по id юзера
     @RequestMapping(value = "/user/{id}", produces = {"application/json"}, method = RequestMethod.GET)
     public ResponseEntity<List<UserDTO>> getDataJSON(@PathVariable(name = "id") Integer id) {
@@ -38,6 +44,7 @@ public class RestController {
         return ResponseEntity.ok(userService.getSubject(id));
     }
 
+    // TODO: В ответе заголовок, который сообщает браузеры в каком виде он вернул ответ ставится не через Accept, а через Content-Type
     //Маппинг который принимает и возвращает xml по id юзера
     @RequestMapping(value = "/user/{id}", produces = {"application/xhtml+xml"}, method = RequestMethod.GET)
     public ResponseEntity<String> getUserXML(HttpServletResponse response, @PathVariable(name = "id") Integer id) {
@@ -61,6 +68,7 @@ public class RestController {
     public ResponseEntity addUser(@RequestBody UserDTO user) {
         boolean result = userService.addSubject(user);
         if (!result) {
+            // TODO: Здесь и ниже по коду можно вызывать .body вместо .build и прокидывать еще объект с человекопонятным текстом ошибки
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
         return ResponseEntity.status(HttpStatus.OK).build();
