@@ -3,21 +3,39 @@ package com.simbirsoft.javaexample.dto;
 
 import java.util.List;
 
-// TODO: Хорошо бы сущность дополнить
-// TODO: На вскидку можно добавить список преподавателей, которые его ведут и id предмета
 public class UserDTO {
     private String name;
     private Integer age;
-    private List<>
+    private List<String> family;
 
-    public UserDTO(String name, Integer age) {
+    public UserDTO(String name, Integer age, List<String> family, Integer id) {
         this.name = name;
         this.age = age;
+        this.family = family;
+        this.id = id;
     }
 
     public UserDTO() {
 
     }
+
+    public List<String> getFamily() {
+        return family;
+    }
+
+    public void setFamily(List<String> family) {
+        this.family = family;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    private Integer id;
 
 
     public String getName() {

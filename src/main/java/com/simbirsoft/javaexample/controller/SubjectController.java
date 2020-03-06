@@ -31,13 +31,8 @@ public class SubjectController {
 
     }
 
-    /**
-     *
-     * @param course
-     * @return
-     */
     @RequestMapping(value = "/shotki/{course}",produces = {"application/json"},method = RequestMethod.GET)
-    public ResponseEntity<List<UserDTO>> getShotkiJSON(@PathVariable(name = "course") Integer course) {
+    public ResponseEntity<List<UserDTO>> getDataJSON(@PathVariable(name = "course") Integer course) {
 
         return ResponseEntity.ok(userService.getSubject(course));
     }
