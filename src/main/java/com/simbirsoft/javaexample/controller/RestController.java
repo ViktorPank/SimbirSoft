@@ -13,13 +13,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
-@RestController
-public class SubjectController {
+@org.springframework.web.bind.annotation.RestController
+public class RestController {
 
     private UserService userService;
 
     @Autowired
-    public SubjectController(UserService userService) {
+    public RestController(UserService userService) {
         this.userService = userService;
     }
 
