@@ -7,7 +7,6 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -44,37 +43,24 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public boolean deleteUser(Integer id) {
-<<<<<<< HEAD
         UserDTO userDTO = userDB
                 .stream()
                 .filter(UserDto -> UserDto.getId().equals(id))
                 .findFirst()
                 .orElse(null);
         userDB.remove(userDTO);
-=======
-        // TODO: Используй subjectDB.stream().filter() чтобы получать нужный или переделай List на Map, где ключом будет id
-        for (int i = 0; i < subjectDB.size(); i++) {
-            if (subjectDB.get(i).getId().equals(id)) {
-                subjectDB.remove(i);
-                return true;
-            }
-        }
->>>>>>> 7ae700f967831ccfd7bae5da2b2abc8c59123ffc
+
 
         if (userDTO != null) return true;
         return false;
     }
 
-<<<<<<< HEAD
     /**
      * Получение юзера по id
      *
      * @param id пользователя которого нужно получить
      * @return список юзеров соотвествующий id
      */
-=======
-    // TODO: Лишний пробел в методе
->>>>>>> 7ae700f967831ccfd7bae5da2b2abc8c59123ffc
     @Override
     public List<UserDTO> getUser(Integer id) {
         return userDB.stream()
@@ -82,17 +68,13 @@ public class UserServiceImpl implements UserService {
                 .collect(Collectors.toList());
     }
 
-<<<<<<< HEAD
     /**
      * Метод обновления объекта с помощью рефлексии
      *
      * @param userDTO Обьект пользователя которого нужно обновить
      * @return возвращает true если обновление прошло успешно, в других случаях вовзращает false
      */
-=======
-    // TODO: Обновление - это не замена целиком
-    // TODO: Ты должен найти в "бд" объект с id == id из userDTO и заменить эквивалентно те поля, которые в userDTO != null
->>>>>>> 7ae700f967831ccfd7bae5da2b2abc8c59123ffc
+
     @Override
     public boolean updateUser(UserDTO userDTO) {
 

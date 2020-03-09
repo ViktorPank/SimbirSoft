@@ -19,12 +19,7 @@ public interface UserService {
      * @param id пользователя которого нужно получить
      * @return список данных юзера по id
      */
-<<<<<<< HEAD
     List<UserDTO> getUser(Integer id);
-=======
-    // TODO: Почему getSubject?
-    List<UserDTO> getSubject(Integer id);
->>>>>>> 7ae700f967831ccfd7bae5da2b2abc8c59123ffc
 
     /**
      * Метод удаления юзера из листа

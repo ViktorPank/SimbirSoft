@@ -81,7 +81,6 @@ public class UserController {
      * @param user обьект который нужно добавить
      * @return Возращает Http статус и сообщение о статусе операции
      */
-    //Маппинг добавления юезра и возвращает статус Http
     @PostMapping("/addUser")
     public ResponseEntity addUser(@RequestBody UserDTO user) {
         boolean result = userService.addUser(user);
