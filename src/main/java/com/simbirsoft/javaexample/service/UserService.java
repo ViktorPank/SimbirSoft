@@ -4,6 +4,7 @@ import com.simbirsoft.javaexample.dto.UserDTO;
 
 import java.util.List;
 
+// TODO: Порядок реализации методов в сервисе не совпадает с порядком их упоминания здесь
 public interface UserService {
     /**
      * Метод добавления юзера в БД

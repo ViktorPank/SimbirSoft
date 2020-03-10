@@ -13,7 +13,6 @@ public class UserDTO {
     private Integer id;
 
 
-    // TODO: Порядок аргументов в контроллере должен совпадать с порядком полей в классе. Используй Alt + Insert -> Constructor для генерации
     public UserDTO(String name, Integer age, List<String> family, Integer id) {
         this.name = name;
         this.age = age;

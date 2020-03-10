@@ -17,6 +17,7 @@ public class UserController {
     /**
      * Обьект через которого можно совершать операции с БД юзеров
      */
+    // TODO: Если хочешь добавить пояснение что это за сервис, то лучше добавь блок комментов в самом классе сервиса
     private UserService userService;
 
     @Autowired
@@ -34,6 +35,7 @@ public class UserController {
         return ResponseEntity.ok(userService.getUsers());
     }
 
+    // TODO: Попробуй найти способ не устанавливать заголовки и конвертацию вручную
     /**
      * Получение юзеров соотвествующий id в формате json
      *
@@ -67,6 +69,7 @@ public class UserController {
      * Получение юзеров соотвествующий id в любом формате
      *
      * @param id
+     * // TODO: Заголовок Content-Type всегда возвращает сервер, не обязательно это упоминать
      * @return возвращает список юзеров в формате указанный в заголовке Content-Type
      */
     @GetMapping("/user/{id}")
@@ -81,10 +84,12 @@ public class UserController {
      * @param user обьект который нужно добавить
      * @return Возращает Http статус и сообщение о статусе операции
      */
+    // TODO: Не пишем глаголы в эндпоинтах https://habr.com/ru/post/351890/
     @PostMapping("/addUser")
     public ResponseEntity addUser(@RequestBody UserDTO user) {
         boolean result = userService.addUser(user);
         if (!result) {
+            // TODO: Лучше все таки сообщения помещать в какую-нибудь ДТОшку с одним полем, таким образом они будут уходить на клиент в виде json, а не как plaintext
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Сервер не отвечает!");
         }
         return ResponseEntity.status(HttpStatus.OK).body("Пользователь добавлен!");
@@ -114,7 +119,7 @@ public class UserController {
      */
     @PutMapping(value = "/updateUser/{id}")
     public ResponseEntity updateUser(@RequestBody UserDTO user) {
-
+        // TODO: Зачем два вызова?
         userService.updateUser(user);
         boolean result = userService.updateUser(user);
         if (!result) {
