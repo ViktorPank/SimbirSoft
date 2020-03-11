@@ -24,10 +24,10 @@ public interface UserService {
     /**
      * Метод получения юзера по id
      *
-     * @param id пользователя которого нужно получить
-     * @return список данных юзера по id
+     * @param userDTO DTO юзера которого нужно получить
+     * @return список данных юзера по DTO
      */
-    List<UserDTO> getUser(Integer id);
+    List<UserDTO> getUser(UserDTO userDTO);
 
 
     /**

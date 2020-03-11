@@ -56,14 +56,16 @@ public class UserServiceImpl implements UserService {
     /**
      * Получение юзера по id
      *
-     * @param id пользователя которого нужно получить
-     * @return список юзеров соотвествующий id
+     * @param userDTO ДТО юзера по которому нужно получить юзера из БД
+     * @return список юзеров соотвествующий ДТО
      */
     @Override
-    // TODO: Теперь можно дополнить метод и принимать на вход не один id, а DTOшку пользователя и осущевлять фильтрацию по всем полям
-    public List<UserDTO> getUser(Integer id) {
+    public List<UserDTO> getUser(UserDTO userDTO) {
         return userDB.stream()
-                .filter(UserDto -> UserDto.getId().equals(id))
+                .filter(UserDto -> UserDto.getId().equals(userDTO.getId()))
+                .filter(UserDto -> UserDto.getAge().equals(userDTO.getAge()))
+                .filter(UserDto -> UserDto.getName().equals(userDTO.getName()))
+                .filter(UserDto -> UserDto.getFamily().equals(userDTO.getFamily()))
                 .collect(Collectors.toList());
     }
 
@@ -76,8 +78,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean updateUser(UserDTO userDTO) {
-
-
         Integer id = userDTO.getId();
         if (id != null) {
             UserDTO currentUser = userDB
@@ -85,7 +85,7 @@ public class UserServiceImpl implements UserService {
                     .filter(UserDto -> UserDto.getId().equals(id))
                     .findFirst()
                     .orElse(null);
-            return currentUser != null ? new UserReflection().updateUserReflection(userDTO,currentUser) : false;
+            return currentUser != null && new UserReflection().updateUserReflection(userDTO,currentUser);
         }
         else return false;
 
