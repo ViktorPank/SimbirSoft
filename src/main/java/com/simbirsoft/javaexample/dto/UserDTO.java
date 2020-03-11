@@ -4,7 +4,7 @@ package com.simbirsoft.javaexample.dto;
 import java.util.List;
 
 /**
- * Сущность для работы БД
+ * Класс для работы БД
  */
 public class UserDTO {
     private String name;

@@ -1,11 +1,11 @@
 package com.simbirsoft.javaexample.controller;
 
+import com.simbirsoft.javaexample.dto.MessageDTO;
 import com.simbirsoft.javaexample.dto.UserDTO;
 import com.simbirsoft.javaexample.service.UserService;
-import com.thoughtworks.xstream.XStream;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,10 +14,7 @@ import java.util.List;
 
 @RestController
 public class UserController {
-    /**
-     * Обьект через которого можно совершать операции с БД юзеров
-     */
-    // TODO: Если хочешь добавить пояснение что это за сервис, то лучше добавь блок комментов в самом классе сервиса
+
     private UserService userService;
 
     @Autowired
@@ -25,58 +22,19 @@ public class UserController {
         this.userService = userService;
     }
 
-    /**
-     * Получение юзеров
-     *
-     * @return Возвращает список юзеров
-     */
-    @GetMapping(value = "/user")
-    public ResponseEntity<List<UserDTO>> getUsers() {
-        return ResponseEntity.ok(userService.getUsers());
-    }
-
-    // TODO: Попробуй найти способ не устанавливать заголовки и конвертацию вручную
-    /**
-     * Получение юзеров соотвествующий id в формате json
-     *
-     * @param response Http ответ
-     * @param id
-     * @return Возвращает список юзеров соотвествующий этому id
-     */
-    @GetMapping(value = "/user/{id}", produces = {"application/json"})
-    public ResponseEntity<List<UserDTO>> getDataJSON(HttpServletResponse response, @PathVariable(name = "id") Integer id) {
-
-        response.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
-        return ResponseEntity.ok(userService.getUser(id));
-    }
 
     /**
-     * Получение юзеров соотвествующий id в формате xml
-     *
-     * @param response Http ответ
-     * @param id
-     * @return Возвращает список юзеров с определнным id
-     */
-    @GetMapping(value = "/user/{id}", produces = {"application/xhtml+xml"})
-    public ResponseEntity<String> getUserXML(HttpServletResponse response, @PathVariable(name = "id") Integer id) {
-        response.setHeader(HttpHeaders.CONTENT_TYPE, "application/xhtml+xml");
-        XStream xStream = new XStream();
-        String xml = xStream.toXML(userService.getUser(id));
-        return ResponseEntity.ok(xml);
-    }
-
-    /**
-     * Получение юзеров соотвествующий id в любом формате
+     * Получение юзеров по id в формате xml,json
      *
      * @param id
-     * // TODO: Заголовок Content-Type всегда возвращает сервер, не обязательно это упоминать
-     * @return возвращает список юзеров в формате указанный в заголовке Content-Type
+     * @return Возвращает список юзеров с определенным id, если id не указан, то
+     * возвращает список всех юзеров
      */
-    @GetMapping("/user/{id}")
-    public ResponseEntity<List<UserDTO>> getUser(@PathVariable(name = "id") Integer id) {
-        return ResponseEntity.ok(userService.getUser(id));
-
+    @GetMapping(value = "/user/{id}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    public ResponseEntity<List<UserDTO>> getUserJSONandXML(@PathVariable(name = "id") Integer id) {
+        return id == null ? ResponseEntity.ok(userService.getUsers()) : ResponseEntity.ok(userService.getUser(id));
     }
+//----------------------------------------------------------------------------------------------
 
     /**
      * Добавление юзера в БД
@@ -84,48 +42,44 @@ public class UserController {
      * @param user обьект который нужно добавить
      * @return Возращает Http статус и сообщение о статусе операции
      */
-    // TODO: Не пишем глаголы в эндпоинтах https://habr.com/ru/post/351890/
-    @PostMapping("/addUser")
+    @PostMapping("/user")
     public ResponseEntity addUser(@RequestBody UserDTO user) {
         boolean result = userService.addUser(user);
         if (!result) {
-            // TODO: Лучше все таки сообщения помещать в какую-нибудь ДТОшку с одним полем, таким образом они будут уходить на клиент в виде json, а не как plaintext
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Сервер не отвечает!");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new MessageDTO("Сервер не отвечает!"));
         }
-        return ResponseEntity.status(HttpStatus.OK).body("Пользователь добавлен!");
+        return ResponseEntity.status(HttpStatus.OK).body(new MessageDTO("Пользователь добавлен!"));
 
     }
 
     /**
-     * Удаление юзера
+     * Удаление юзера из БД
      *
      * @param id ИД который нужно удалить
      * @return Возращает Http статус и сообщение о статусе операции
      */
-    @DeleteMapping(value = "/deleteUser/{id}")
+    @DeleteMapping(value = "/user/{id}")
     public ResponseEntity deleteUser(@PathVariable(name = "id") Integer id) {
         boolean result = userService.deleteUser(id);
         if (!result) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Сервер не отвечает!");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new MessageDTO("Сервер не отвечает!"));
         }
-        return ResponseEntity.status(HttpStatus.OK).body("Пользователь удален!");
+        return ResponseEntity.status(HttpStatus.OK).body(new MessageDTO("Пользователь удален!"));
     }
-    
+
     /**
-     * Обновление данных юзера
+     * Обновление данных юзера в БД
      *
      * @param user обьект пользователя которого нужно обновить
      * @return Возращает Http статус и сообщение о статусе операции
      */
-    @PutMapping(value = "/updateUser/{id}")
+    @PutMapping(value = "/user/{id}")
     public ResponseEntity updateUser(@RequestBody UserDTO user) {
-        // TODO: Зачем два вызова?
-        userService.updateUser(user);
         boolean result = userService.updateUser(user);
         if (!result) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Сервер не отвечает!");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new MessageDTO("Сервер не отвечает!"));
         }
-        return ResponseEntity.status(HttpStatus.OK).body("Данные пользователя обновлены!");
+        return ResponseEntity.status(HttpStatus.OK).body(new MessageDTO("Данные пользователя обновлены!"));
     }
 
 }

@@ -4,7 +4,6 @@ import com.simbirsoft.javaexample.dto.UserDTO;
 
 import java.util.List;
 
-// TODO: Порядок реализации методов в сервисе не совпадает с порядком их упоминания здесь
 public interface UserService {
     /**
      * Метод добавления юзера в БД
@@ -15,6 +14,14 @@ public interface UserService {
     boolean addUser(UserDTO userDTO);
 
     /**
+     * Метод удаления юзера из листа
+     *
+     * @param id юзера которого нужно удалить
+     * @return true Если удаление было успешно, false в других случаях(не найден пользователь)
+     */
+    boolean deleteUser(Integer id);
+
+    /**
      * Метод получения юзера по id
      *
      * @param id пользователя которого нужно получить
@@ -22,13 +29,6 @@ public interface UserService {
      */
     List<UserDTO> getUser(Integer id);
 
-    /**
-     * Метод удаления юзера из листа
-     *
-     * @param id юзера которого нужно удалить
-     * @return true Если удаление было успешно, false в других случаях(не найден пользователь)
-     */
-    boolean deleteUser(Integer id);
 
     /**
      * метод обновления данных юзера

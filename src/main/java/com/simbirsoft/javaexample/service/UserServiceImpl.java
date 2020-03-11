@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+
 public class UserServiceImpl implements UserService {
     /**
      * Создание БД
@@ -43,19 +44,12 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public boolean deleteUser(Integer id) {
-        UserDTO userDTO = userDB
-                // TODO: обычно .stream() пишут на той же строке, где и объект
-                .stream()
+        UserDTO userDTO = userDB.stream()
                 .filter(UserDto -> UserDto.getId().equals(id))
                 .findFirst()
                 .orElse(null);
-        // TODO: В remove не должен попадать null
-        userDB.remove(userDTO);
-
-
-        // TODO: Даже среда же подсказывает как это можно упростить (Alt + Enter)
-        if (userDTO != null) return true;
-        return false;
+        if (userDTO != null)userDB.remove(userDTO);
+        return userDTO != null;
     }
 
     /**
@@ -69,6 +63,7 @@ public class UserServiceImpl implements UserService {
     public List<UserDTO> getUser(Integer id) {
         return userDB.stream()
                 .filter(UserDto -> UserDto.getId().equals(id))
+//                .filter(UserDTO -> UserDTO.getAge())
                 .collect(Collectors.toList());
     }
 
@@ -82,18 +77,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean updateUser(UserDTO userDTO) {
 
-        // TODO: По коду не нужно оставлять такие комментарии
-        /**
-         * Получение id и его проверка
-         */
+
         Integer id = userDTO.getId();
         // TODO: Не сокращай if-конструкции, это не добавляет читабельности
         if (id == null) return false;
 
-        /**
-         * Получение нужного юзера из базы данных для обработки и его проверка
-         */
-        UserDTO currentUser = userDB
+         UserDTO currentUser = userDB
                 .stream()
                 .filter(UserDto -> UserDto.getId().equals(id))
                 .findFirst()
@@ -101,15 +90,8 @@ public class UserServiceImpl implements UserService {
         if (currentUser == null) return false;
 
         // TODO: Если хочешь оставить рефлексию, то вынеси в отдельный сервис или Util-класс и вызывай отсюда
-        /**
-         * Получение полей из класса с помощью рефлексии
-         */
         Field[] fields = UserDTO.class.getDeclaredFields();
 
-        /**
-         *Получение из всех полей обьекта данные
-         *Изменение в БД данных обьекта если поле не пустое
-         */
         for (Field field : fields) {
             field.setAccessible(true);
             Object fieldValue = null;
@@ -121,8 +103,6 @@ public class UserServiceImpl implements UserService {
                 return false;
             }
         }
-        // TODO: Это что еще такое?
-        System.out.println();
         return true;
     }
 
