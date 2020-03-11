@@ -26,12 +26,12 @@ public class UserController {
     /**
      * Получение юзеров по id в формате xml,json
      *
-     * @param id
+     * @param userDTO ДТО юзера который передается для поиска в БД
      * @return Возвращает список юзеров с определенным DTO, если DTO не указан, то
      * возвращает список всех юзеров
      */
-    @GetMapping(value = "/user/{id}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-    public ResponseEntity<List<UserDTO>> getUser(@PathVariable(name = "id") Integer id,@RequestBody UserDTO userDTO) {
+    @GetMapping(value = "/user", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    public ResponseEntity<List<UserDTO>> getUser(@RequestBody UserDTO userDTO) {
         return userDTO == null ? ResponseEntity.ok(userService.getUsers()) : ResponseEntity.ok(userService.getUser(userDTO));
     }
 //----------------------------------------------------------------------------------------------
