@@ -1,6 +1,7 @@
 package com.simbirsoft.javaexample.service;
 
 import com.simbirsoft.javaexample.dto.UserDTO;
+import com.simbirsoft.javaexample.util.UserReflection;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Field;
@@ -63,7 +64,6 @@ public class UserServiceImpl implements UserService {
     public List<UserDTO> getUser(Integer id) {
         return userDB.stream()
                 .filter(UserDto -> UserDto.getId().equals(id))
-//                .filter(UserDTO -> UserDTO.getAge())
                 .collect(Collectors.toList());
     }
 
@@ -79,31 +79,19 @@ public class UserServiceImpl implements UserService {
 
 
         Integer id = userDTO.getId();
-        // TODO: Не сокращай if-конструкции, это не добавляет читабельности
-        if (id == null) return false;
-
-         UserDTO currentUser = userDB
-                .stream()
-                .filter(UserDto -> UserDto.getId().equals(id))
-                .findFirst()
-                .orElse(null);
-        if (currentUser == null) return false;
-
-        // TODO: Если хочешь оставить рефлексию, то вынеси в отдельный сервис или Util-класс и вызывай отсюда
-        Field[] fields = UserDTO.class.getDeclaredFields();
-
-        for (Field field : fields) {
-            field.setAccessible(true);
-            Object fieldValue = null;
-
-            try {
-                fieldValue = field.get(userDTO);
-                if (fieldValue != null) field.set(currentUser, fieldValue);
-            } catch (IllegalAccessException e) {
-                return false;
-            }
+        if (id != null) {
+            UserDTO currentUser = userDB
+                    .stream()
+                    .filter(UserDto -> UserDto.getId().equals(id))
+                    .findFirst()
+                    .orElse(null);
+            return currentUser != null ? new UserReflection().updateUserReflection(userDTO,currentUser) : false;
         }
-        return true;
+        else return false;
+
+
+
+
     }
 
     /**
