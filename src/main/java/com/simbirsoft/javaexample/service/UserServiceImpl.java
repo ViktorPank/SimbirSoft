@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService {
                 .filter(UserDto -> UserDto.getId().equals(id))
                 .findFirst()
                 .orElse(null);
-        if (userDTO != null)userDB.remove(userDTO);
+        if (userDTO != null) userDB.remove(userDTO);
         return userDTO != null;
     }
 
@@ -85,13 +85,8 @@ public class UserServiceImpl implements UserService {
                     .filter(UserDto -> UserDto.getId().equals(id))
                     .findFirst()
                     .orElse(null);
-            return currentUser != null && new UserReflection().updateUserReflection(userDTO,currentUser);
-        }
-        else return false;
-
-
-
-
+            return currentUser != null && new UserReflection().updateUserReflection(userDTO, currentUser);
+        } else return false;
     }
 
     /**

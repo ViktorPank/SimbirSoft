@@ -48,7 +48,7 @@ public class UserController {
         if (!result) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new MessageDTO("Сервер не отвечает!"));
         }
-        return ResponseEntity.status(HttpStatus.OK).body(new MessageDTO("Пользователь добавлен!"));
+        return ResponseEntity.status(HttpStatus.OK).body(new MessageDTO("Пользователь добавлен!").getMessage());
 
     }
 
@@ -64,7 +64,7 @@ public class UserController {
         if (!result) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new MessageDTO("Сервер не отвечает!"));
         }
-        return ResponseEntity.status(HttpStatus.OK).body(new MessageDTO("Пользователь удален!"));
+        return ResponseEntity.status(HttpStatus.OK).body(new MessageDTO("Пользователь удален!").getMessage());
     }
 
     /**
@@ -79,7 +79,7 @@ public class UserController {
         if (!result) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new MessageDTO("Сервер не отвечает!"));
         }
-        return ResponseEntity.status(HttpStatus.OK).body(new MessageDTO("Данные пользователя обновлены!"));
+        return ResponseEntity.status(HttpStatus.OK).body(new MessageDTO("Данные пользователя обновлены!").getMessage());
     }
 
 }
