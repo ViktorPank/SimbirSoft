@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -34,7 +35,6 @@ public class UserController {
     public ResponseEntity<List<UserDTO>> getUser(@RequestBody UserDTO userDTO) {
         return userDTO == null ? ResponseEntity.ok(userService.getUsers()) : ResponseEntity.ok(userService.getUser(userDTO));
     }
-//----------------------------------------------------------------------------------------------
 
     /**
      * Добавление юзера в БД
