@@ -32,6 +32,7 @@ public class UserController {
      * возвращает список всех юзеров
      */
     @GetMapping(value = "/user", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    // TODO: В get-запросе не может быть тела, нужно передавать UserDTO как набор параметров
     public ResponseEntity<List<UserDTO>> getUser(@RequestBody UserDTO userDTO) {
         return userDTO == null ? ResponseEntity.ok(userService.getUsers()) : ResponseEntity.ok(userService.getUser(userDTO));
     }
@@ -46,6 +47,7 @@ public class UserController {
     public ResponseEntity addUser(@RequestBody UserDTO user) {
         boolean result = userService.addUser(user);
         if (!result) {
+            // TODO: Давай теперь вынесем все тексты сообщений для MessageDTO в message.properties и будем работать с ними через MessageSource
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new MessageDTO("Сервер не отвечает!"));
         }
         return ResponseEntity.status(HttpStatus.OK).body(new MessageDTO("Пользователь добавлен!").getMessage());

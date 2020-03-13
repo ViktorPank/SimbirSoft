@@ -7,7 +7,7 @@ import java.lang.reflect.Field;
 /**
  * Действия с юзером с помощью рефлексии
  */
-
+// TODO: Обычно такие классы называют UserReflectionUtil с Util на конце.
 public class UserReflection {
     private Field[] fields;
 
