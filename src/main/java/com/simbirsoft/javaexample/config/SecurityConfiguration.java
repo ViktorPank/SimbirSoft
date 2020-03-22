@@ -19,7 +19,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private UserService userService;
+    UserService userService;
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
@@ -34,9 +34,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/admin").access("hasRole('ADMIN')")
+                .antMatchers("/admin").hasRole("ADMIN")
                 .antMatchers("/passport",
-                        "/credit").access("hasRole('USER')")
+                        "/credit").hasRole("USER")
                 .antMatchers(
                         "/",
                         "/news"
