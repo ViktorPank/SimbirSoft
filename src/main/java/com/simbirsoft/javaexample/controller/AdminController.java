@@ -32,7 +32,7 @@ public class AdminController {
      *
      * @return Лист юзеров
      */
-    @GetMapping(value = "/admin", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    @GetMapping(value = "/admin")
     public ResponseEntity<List<PersonDTO>> userList() {
         return ResponseEntity.status(HttpStatus.OK).body(userService.getUsers());
     }
