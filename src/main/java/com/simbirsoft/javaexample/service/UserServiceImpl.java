@@ -1,101 +1,102 @@
 package com.simbirsoft.javaexample.service;
 
-import com.simbirsoft.javaexample.dto.UserDTO;
-import com.simbirsoft.javaexample.util.UserReflection;
+import com.simbirsoft.javaexample.data.Credit;
+import com.simbirsoft.javaexample.data.Passport;
+import com.simbirsoft.javaexample.data.Person;
+import com.simbirsoft.javaexample.data.Role;
+import com.simbirsoft.javaexample.dto.CreditDTO;
+import com.simbirsoft.javaexample.dto.PassportDTO;
+import com.simbirsoft.javaexample.dto.PersonDTO;
+import com.simbirsoft.javaexample.repository.CreditRepository;
+import com.simbirsoft.javaexample.repository.PassportRepository;
+import com.simbirsoft.javaexample.repository.PersonRepository;
+import com.simbirsoft.javaexample.repository.RoleRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-
 public class UserServiceImpl implements UserService {
-    /**
-     * Создание БД
-     */
-    private static List<UserDTO> userDB = new ArrayList<>();
 
-    static {
-        userDB.add(new UserDTO("Вася", 10, Arrays.asList("бабушка Фрося", "мама Люся", "папа Игорь"), 1));
-        userDB.add(new UserDTO("Маша", 12, Arrays.asList("бабушка Леся", "мама Лена", "папа Юра"), 2));
-        userDB.add(new UserDTO("Петя", 22, Arrays.asList("бабушка Феврония", "мама Юля", "дед Максим"), 3));
-        userDB.add(new UserDTO("Федор", 43, Arrays.asList("папа Дмитрий ", "мама Алина", "бабушка Диана"), 4));
+    private PersonRepository personRepository;
+    private CreditRepository creditRepository;
+    private PassportRepository passportRepository;
+    private RoleRepository roleRepository;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Autowired
+    public UserServiceImpl(PersonRepository personRepository, CreditRepository creditRepository, PassportRepository passportRepository, RoleRepository roleRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+        this.personRepository = personRepository;
+        this.creditRepository = creditRepository;
+        this.passportRepository = passportRepository;
+        this.roleRepository = roleRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
-    /**
-     * Добавление юзера в БД
-     *
-     * @param userDTO обьект юзера которого нужно добавить
-     * @return true если добавил, иначе false
-     */
     @Override
-    public boolean addUser(UserDTO userDTO) {
-        return userDB.add(userDTO);
+    public boolean addUser(PersonDTO personDTO) {
+        Person personDB = personRepository.findByUsername(personDTO.getUsername());
+
+        if (personDB != null) {
+            return false;
+        }
+
+        Person person = new Person(personDTO.getUsername(), personDTO.getPassword(), personDTO.getAge());
+        person.setRoles(Collections.singleton(new Role(1L, "Role_USER")));
+        person.setPassword(bCryptPasswordEncoder.encode(personDTO.getPassword()));
+        personRepository.save(person);
+        return true;
 
     }
 
-    /**
-     * Удаление юзера из БД
-     *
-     * @param id юзера которого нужно удалить
-     * @return true если добавил, иначе false
-     */
     @Override
-    public boolean deleteUser(Integer id) {
-        UserDTO userDTO = userDB.stream()
-                .filter(UserDto -> UserDto.getId().equals(id))
-                .findFirst()
-                .orElse(null);
-        if (userDTO != null) userDB.remove(userDTO);
-        return userDTO != null;
+    public boolean deleteUser(PersonDTO personDTO) {
+        Person personDB = personRepository.findByUsername(personDTO.getUsername());
+
+        if (personDB != null) {
+            return false;
+        } else personRepository.delete(personDB);
+
+        return true;
     }
 
-    /**
-     * Получение юзера по id
-     *
-     * @param userDTO ДТО юзера по которому нужно получить юзера из БД
-     * @return список юзеров соотвествующий ДТО
-     */
     @Override
-    public List<UserDTO> getUser(UserDTO userDTO) {
-        return userDB.stream()
-                .filter(UserDto -> UserDto.getId().equals(userDTO.getId()))
-                .filter(UserDto -> UserDto.getAge().equals(userDTO.getAge()))
-                .filter(UserDto -> UserDto.getName().equals(userDTO.getName()))
-                .filter(UserDto -> UserDto.getFamily().equals(userDTO.getFamily()))
+    public boolean updateUser(PersonDTO personDTO) {
+        Person personDB = personRepository.findByUsername(personDTO.getUsername());
+
+        if (personDB != null) {
+            return false;
+        } else {
+            if (personDB.getAge() != personDTO.getAge()) personDB.setAge(personDTO.getAge());
+            if (personDB.getPassword() != personDTO.getPassword()) personDB.setPassword(personDTO.getPassword());
+            personRepository.save(personDB);
+        }
+
+        return true;
+    }
+
+    @Override
+    public List<PersonDTO> getUsers() {
+        return personRepository.findAll().stream()
+                .map(person -> new PersonDTO(person.getUsername(), person.getPassword(), person.getAge()))
                 .collect(Collectors.toList());
     }
 
-    /**
-     * Метод обновления объекта с помощью рефлексии
-     *
-     * @param userDTO Обьект пользователя которого нужно обновить
-     * @return возвращает true если обновление прошло успешно, в других случаях вовзращает false
-     */
-
     @Override
-    public boolean updateUser(UserDTO userDTO) {
-        Integer id = userDTO.getId();
-        if (id != null) {
-            UserDTO currentUser = userDB
-                    .stream()
-                    .filter(UserDto -> UserDto.getId().equals(id))
-                    .findFirst()
-                    .orElse(null);
-            return currentUser != null && new UserReflection().updateUserReflection(userDTO, currentUser);
-        } else return false;
+    public List<CreditDTO> getCredit(String username) {
+        List<Credit> creditDB = creditRepository.findCreditByUsername(username);
+        return creditDB.stream()
+                .map(credit -> new CreditDTO(credit.getAmount(), credit.getCurrency()))
+                .collect(Collectors.toList());
     }
 
-    /**
-     * Получение юзеров
-     *
-     * @return список всех юзеров
-     */
     @Override
-    public List<UserDTO> getUsers() {
-        return userDB;
+    public PassportDTO getPassport(String username) {
+        Passport passportDB = passportRepository.findPassportByUsername(username);
+        return new PassportDTO(passportDB.getSeries(), passportDB.getNumber());
     }
 }

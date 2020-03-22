@@ -1,17 +1,14 @@
 package com.simbirsoft.javaexample.util;
 
-import com.simbirsoft.javaexample.dto.UserDTO;
-
 import java.lang.reflect.Field;
 
 /**
  * Действия с юзером с помощью рефлексии
  */
-// TODO: Обычно такие классы называют UserReflectionUtil с Util на конце.
-public class UserReflection {
+public class UserReflectionUtil {
     private Field[] fields;
 
-    public UserReflection() {
+    public UserReflectionUtil() {
         this.fields = UserDTO.class.getDeclaredFields();
     }
 
