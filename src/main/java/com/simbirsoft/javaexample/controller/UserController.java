@@ -4,6 +4,7 @@ import com.simbirsoft.javaexample.dto.*;
 import com.simbirsoft.javaexample.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -36,15 +37,15 @@ public class UserController {
      * @return паспорт текущего юзера
      */
     @GetMapping(value = "/passport")
-    public ResponseEntity<PassportDTO> getUserPassport() {
+    public ResponseEntity<PassportDTO> getUserPassport(LocaleContext localeContext) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if ((!(auth instanceof AnonymousAuthenticationToken)) && auth != null) {
             UserDetails userDetail = (UserDetails) auth.getPrincipal();
             return ResponseEntity.status(HttpStatus.OK).body(userService.getPassport(userDetail.getUsername()));
         }
-        //не  понимаю что возвращать в случае ошибки, там же тип определенный
+        //не  понимаю что возвращать в случае ошибки, там же тип определенный, ниже вариант который прошел
         //return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(messageSource.getMessage("error.resource.unavailable",null,localeContext.getLocale()));
-        return null;
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
 
     /**
@@ -59,10 +60,10 @@ public class UserController {
             UserDetails userDetail = (UserDetails) auth.getPrincipal();
             return ResponseEntity.status(HttpStatus.OK).body(userService.getCredit(userDetail.getUsername()));
         }
-        //не знаю что возвращать в случае ошибки, там же тип определенный
+        //та же проблема что и сверху
         //return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(messageSource.getMessage("error.resource.unavailable",null,localeContext.getLocale()));
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 
-        return null;
     }
 
 }

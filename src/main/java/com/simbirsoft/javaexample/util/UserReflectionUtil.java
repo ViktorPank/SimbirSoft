@@ -1,5 +1,8 @@
 package com.simbirsoft.javaexample.util;
 
+import com.simbirsoft.javaexample.data.Person;
+import com.simbirsoft.javaexample.dto.PersonDTO;
+
 import java.lang.reflect.Field;
 
 /**
@@ -9,7 +12,7 @@ public class UserReflectionUtil {
     private Field[] fields;
 
     public UserReflectionUtil() {
-        this.fields = UserDTO.class.getDeclaredFields();
+        this.fields = PersonDTO.class.getDeclaredFields();
     }
 
     /**
@@ -18,7 +21,7 @@ public class UserReflectionUtil {
      * @param currentUser юзер из БД, данные котого нужно обновить
      * @return true если обновление успешно,false если неуспешно
      */
-    public boolean updateUserReflection(UserDTO userDTO, UserDTO currentUser) {
+    public boolean updateUserReflection(PersonDTO userDTO, PersonDTO currentUser) {
         for (Field field : fields) {
             field.setAccessible(true);
             Object fieldValue = null;
