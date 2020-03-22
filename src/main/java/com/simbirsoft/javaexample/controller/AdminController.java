@@ -1,5 +1,6 @@
 package com.simbirsoft.javaexample.controller;
 
+import com.simbirsoft.javaexample.dto.PassportDTO;
 import com.simbirsoft.javaexample.dto.PersonDTO;
 import com.simbirsoft.javaexample.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,10 @@ import org.springframework.context.i18n.LocaleContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
