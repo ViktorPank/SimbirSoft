@@ -4,7 +4,6 @@ import com.simbirsoft.javaexample.dto.*;
 import com.simbirsoft.javaexample.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -36,7 +35,7 @@ public class UserController {
      * @return паспорт текущего юзера
      */
     @GetMapping(value = "/passport")
-    public ResponseEntity<PassportDTO> getUserPassport(LocaleContext localeContext) {
+    public ResponseEntity<PassportDTO> getUserPassport() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if ((!(auth instanceof AnonymousAuthenticationToken)) && auth != null) {
             UserDetails userDetail = (UserDetails) auth.getPrincipal();

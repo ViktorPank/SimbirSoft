@@ -13,8 +13,8 @@ public interface CreditRepository extends JpaRepository<Credit, Long> {
             "SELECT * " +
             "FROM credit c " +
             "INNER JOIN person p " +
-            "ON p.person_id = c.person_id" +
-            "WHERE p.username = : username",
+            "ON p.person_id = c.person_id " +
+            "WHERE p.username = :username",
             nativeQuery = true)
     List<Credit> findCreditByUsername(@Param("username") String username);
 }
