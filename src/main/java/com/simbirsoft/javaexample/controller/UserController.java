@@ -22,7 +22,7 @@ import java.util.*;
 public class UserController {
 
     private UserService userService;
-    public MessageSource messageSource;
+    private MessageSource messageSource;
 
     @Autowired
     public UserController(UserService userService, MessageSource messageSource) {
@@ -62,7 +62,6 @@ public class UserController {
         //та же проблема что и сверху
         //return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(messageSource.getMessage("error.resource.unavailable",null,localeContext.getLocale()));
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-
     }
 
 }

@@ -34,29 +34,29 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .authorizeRequests()
-                    .antMatchers("/admin/**").hasRole("ADMIN")
-                    .antMatchers("/passport",
-                            "/credit").hasRole("USER")
-                    .antMatchers(
-                            "/",
-                            "/news/**"
-                    )
-                    .permitAll()
-                .anyRequest().authenticated()
-                .and()
-                    .formLogin()
-                    .permitAll()
-                .and()
-                .logout()
-                .invalidateHttpSession(true)
-                .clearAuthentication(true)
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/login?logout")
+            .authorizeRequests()
+                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/passport",
+                        "/credit").hasRole("USER")
+                .antMatchers(
+                        "/",
+                        "/news/**"
+                )
                 .permitAll()
-                .and()
-                .csrf()
-                .disable();
+            .anyRequest().authenticated()
+            .and()
+                .formLogin()
+                .permitAll()
+            .and()
+            .logout()
+            .invalidateHttpSession(true)
+            .clearAuthentication(true)
+            .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+            .logoutSuccessUrl("/login?logout")
+            .permitAll()
+            .and()
+            .csrf()
+            .disable();
 
     }
 }

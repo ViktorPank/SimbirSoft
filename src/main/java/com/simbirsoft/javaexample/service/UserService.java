@@ -57,7 +57,6 @@ public class UserService implements UserDetailsService {
         person.setPassword(bCryptPasswordEncoder.encode(personDTO.getPassword()));
         personRepository.save(person);
         return true;
-
     }
 
     /**
@@ -92,7 +91,6 @@ public class UserService implements UserDetailsService {
             if (personDB.getPassword() != personDTO.getPassword()) personDB.setPassword(personDTO.getPassword());
             personRepository.save(personDB);
         }
-
         return true;
     }
 

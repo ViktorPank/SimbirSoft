@@ -51,7 +51,6 @@ public class AdminController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(messageSource.getMessage("error.resource.unavailable", null, localeContext.getLocale()));
         }
         return ResponseEntity.status(HttpStatus.OK).body(messageSource.getMessage("request.ok", null, localeContext.getLocale()));
-
     }
 
     /**
@@ -68,7 +67,6 @@ public class AdminController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(messageSource.getMessage("error.resource.unavailable", null, localeContext.getLocale()));
         }
         return ResponseEntity.status(HttpStatus.OK).body(messageSource.getMessage("put.request", null, localeContext.getLocale()));
-
     }
 
     /**
@@ -86,6 +84,4 @@ public class AdminController {
         }
         return ResponseEntity.status(HttpStatus.OK).body(messageSource.getMessage("delete.request", null, localeContext.getLocale()));
     }
-
-
 }

@@ -1,7 +1,5 @@
 package com.simbirsoft.javaexample.dto;
 
-import javax.persistence.Column;
-
 public class CreditDTO {
 
     private Long amount;
