@@ -22,7 +22,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private UserService userService;
 
     @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+    private BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
