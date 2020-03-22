@@ -22,7 +22,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private UserService userService;
 
     @Bean
-    private BCryptPasswordEncoder bCryptPasswordEncoder() {
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
@@ -34,9 +34,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/admin/**").hasRole("ROLE_ADMIN")
                 .antMatchers("/passport/**",
-                        "/credit/**").hasRole("USER")
+                        "/credit/**").hasRole("ROLE_USER")
                 .antMatchers(
                         "/",
                         "/news/**"
