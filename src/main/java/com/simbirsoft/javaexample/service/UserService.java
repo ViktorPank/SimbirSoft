@@ -148,6 +148,6 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Person person = personRepository.findPersonByUsername(username);
-        return new User(person.getUsername(), person.getPassword(), Arrays.asList(new SimpleGrantedAuthority("ROLE_USER")));
+        return person;
     }
 }

@@ -47,6 +47,7 @@ public class Person implements UserDetails {
     public Person() {
     }
 
+
     public Long getPerson_id() {
         return person_id;
     }
@@ -55,6 +56,7 @@ public class Person implements UserDetails {
         this.person_id = person_id;
     }
 
+    @Override
     public String getUsername() {
         return username;
     }
@@ -63,6 +65,7 @@ public class Person implements UserDetails {
         this.username = username;
     }
 
+    @Override
     public String getPassword() {
         return password;
     }
@@ -162,4 +165,7 @@ public class Person implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+
+
 }
