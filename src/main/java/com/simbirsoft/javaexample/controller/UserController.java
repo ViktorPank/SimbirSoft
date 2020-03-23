@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScans;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -37,16 +38,13 @@ public class UserController {
      * @return паспорт текущего юзера
      */
     @GetMapping(value = "/passport")
-    public ResponseEntity<PassportDTO> getUserPassport() {
+    public ResponseEntity getUserPassport(LocaleContextHolder localeContext) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if ((!(auth instanceof AnonymousAuthenticationToken)) && auth != null) {
             UserDetails userDetail = (UserDetails) auth.getPrincipal();
             return ResponseEntity.status(HttpStatus.OK).body(userService.getPassport(userDetail.getUsername()));
         }
-        // TODO: Просто убери дженерик <>
-        //не  понимаю что возвращать в случае ошибки, там же тип определенный, ниже вариант который прошел
-        //return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(messageSource.getMessage("error.resource.unavailable",null,localeContext.getLocale()));
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(messageSource.getMessage("error.resource.unavailable",null,localeContext.getLocale()));
     }
 
     /**
@@ -55,15 +53,13 @@ public class UserController {
      * @return кредит текущего юзера
      */
     @GetMapping(value = "/credit")
-    public ResponseEntity<List<CreditDTO>> getUserCredit() {
+    public ResponseEntity getUserCredit(LocaleContextHolder localeContext) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if ((!(auth instanceof AnonymousAuthenticationToken)) && auth != null) {
             UserDetails userDetail = (UserDetails) auth.getPrincipal();
             return ResponseEntity.status(HttpStatus.OK).body(userService.getCredit(userDetail.getUsername()));
         }
-        //та же проблема что и сверху
-        //return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(messageSource.getMessage("error.resource.unavailable",null,localeContext.getLocale()));
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(messageSource.getMessage("error.resource.unavailable",null,localeContext.getLocale()));
     }
 
 }

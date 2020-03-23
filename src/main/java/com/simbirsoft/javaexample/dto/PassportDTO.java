@@ -1,8 +1,5 @@
 package com.simbirsoft.javaexample.dto;
 
-// TODO: Импорты
-import javax.persistence.Column;
-
 public class PassportDTO {
 
     private String series;

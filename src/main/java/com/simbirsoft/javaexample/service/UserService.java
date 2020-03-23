@@ -62,7 +62,7 @@ public class UserService implements UserDetailsService {
     /**
      * Метод удаления юзера из листа
      *
-     * @param personDTO  DTO юзера которого нужно удалить
+     * @param personDTO DTO юзера которого нужно удалить
      * @return true Если удаление было успешно, false в других случаях(не найден пользователь)
      */
     public boolean deleteUser(PersonDTO personDTO) {
@@ -78,7 +78,7 @@ public class UserService implements UserDetailsService {
     /**
      * обновляет данные юзера
      *
-     * @param personDTO  DTO юзера которого нужно обновить
+     * @param personDTO DTO юзера которого нужно обновить
      * @return true если обновление было успешно, false в других случаях (не найден пользовтаель)
      */
     public boolean updateUser(PersonDTO personDTO) {
@@ -88,9 +88,8 @@ public class UserService implements UserDetailsService {
             return false;
         } else {
             // TODO: У нас тут не котлин, либо делай нормальные тернарные выражения, либо пиши скобки везде
-            if (personDB.getAge() != personDTO.getAge()) personDB.setAge(personDTO.getAge());
-            // TODO: Строки так сравнивать нельзя
-            if (personDB.getPassword() != personDTO.getPassword()) personDB.setPassword(personDTO.getPassword());
+            if (!personDB.getAge().equals(personDTO.getAge())) personDB.setAge(personDTO.getAge());
+            if (!personDB.getPassword().equals(personDTO.getPassword())) personDB.setPassword(personDTO.getPassword());
             personRepository.save(personDB);
         }
         return true;
@@ -109,6 +108,7 @@ public class UserService implements UserDetailsService {
 
     /**
      * Получение списка кредитов юзера
+     *
      * @param username имя юзера по которому ищется кредиты
      * @return список кредитов юзера
      */
@@ -121,6 +121,7 @@ public class UserService implements UserDetailsService {
 
     /**
      * Получение паспорта юзера
+     *
      * @param username имя юзера по которому ищется паспорт
      * @return паспорт юзера
      */
@@ -144,6 +145,6 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Person person = personRepository.findPersonByUsername(username);
-        // TODO: Ctrl + Alt + L
-        return new User(person.getUsername(),person.getPassword(),Arrays.asList(new SimpleGrantedAuthority("ROLE_USER")));    }
+        return new User(person.getUsername(), person.getPassword(), Arrays.asList(new SimpleGrantedAuthority("ROLE_USER")));
+    }
 }
