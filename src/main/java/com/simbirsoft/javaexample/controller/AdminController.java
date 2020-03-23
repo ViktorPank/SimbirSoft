@@ -20,7 +20,6 @@ import java.util.List;
 public class AdminController {
 
     private UserService userService;
-    // TODO: Почему паблик?
     private MessageSource messageSource;
 
     @Autowired

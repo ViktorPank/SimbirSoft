@@ -87,9 +87,12 @@ public class UserService implements UserDetailsService {
         if (personDB != null) {
             return false;
         } else {
-            // TODO: У нас тут не котлин, либо делай нормальные тернарные выражения, либо пиши скобки везде
-            if (!personDB.getAge().equals(personDTO.getAge())) personDB.setAge(personDTO.getAge());
-            if (!personDB.getPassword().equals(personDTO.getPassword())) personDB.setPassword(personDTO.getPassword());
+            if (!personDB.getAge().equals(personDTO.getAge())) {
+                personDB.setAge(personDTO.getAge());
+            }
+            if (!personDB.getPassword().equals(personDTO.getPassword())) {
+                personDB.setPassword(personDTO.getPassword());
+            }
             personRepository.save(personDB);
         }
         return true;
