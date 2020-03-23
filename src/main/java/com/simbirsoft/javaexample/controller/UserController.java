@@ -43,6 +43,7 @@ public class UserController {
             UserDetails userDetail = (UserDetails) auth.getPrincipal();
             return ResponseEntity.status(HttpStatus.OK).body(userService.getPassport(userDetail.getUsername()));
         }
+        // TODO: Просто убери дженерик <>
         //не  понимаю что возвращать в случае ошибки, там же тип определенный, ниже вариант который прошел
         //return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(messageSource.getMessage("error.resource.unavailable",null,localeContext.getLocale()));
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

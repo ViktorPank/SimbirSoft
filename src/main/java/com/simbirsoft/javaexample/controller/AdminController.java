@@ -1,5 +1,6 @@
 package com.simbirsoft.javaexample.controller;
 
+// TODO: Лишние импорты
 import com.simbirsoft.javaexample.dto.PassportDTO;
 import com.simbirsoft.javaexample.dto.PersonDTO;
 import com.simbirsoft.javaexample.service.UserService;
@@ -24,6 +25,7 @@ import java.util.List;
 public class AdminController {
 
     private UserService userService;
+    // TODO: Почему паблик?
     public MessageSource messageSource;
 
     @Autowired
@@ -50,9 +52,11 @@ public class AdminController {
      * @return Возращает Http статус и сообщение о статусе операции
      */
     @PostMapping(value = "/admin", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    // TODO: LocaleContext можно получать из LocaleContextHolder
     public ResponseEntity addUser(@RequestBody PersonDTO user, LocaleContext localeContext) {
         boolean result = userService.addUser(user);
         if (!result) {
+            // TODO: Метод почения сообщения из messageSource получился больно уж длинный, хорошо бы его куда-нибудь вынести
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(messageSource.getMessage("error.resource.unavailable", null, localeContext.getLocale()));
         }
         return ResponseEntity.status(HttpStatus.OK).body(messageSource.getMessage("request.ok", null, localeContext.getLocale()));

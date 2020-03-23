@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+// TODO: В целом допустимое решение - смешать сущность пользователя в БД и внутреннюю спринговую сущность, но в реальной жизни лучше так не делать. Просто к сведению, можешь ничего не менять
 @Table(name = "person")
 @Entity
 public class Person implements UserDetails {

@@ -87,7 +87,9 @@ public class UserService implements UserDetailsService {
         if (personDB != null) {
             return false;
         } else {
+            // TODO: У нас тут не котлин, либо делай нормальные тернарные выражения, либо пиши скобки везде
             if (personDB.getAge() != personDTO.getAge()) personDB.setAge(personDTO.getAge());
+            // TODO: Строки так сравнивать нельзя
             if (personDB.getPassword() != personDTO.getPassword()) personDB.setPassword(personDTO.getPassword());
             personRepository.save(personDB);
         }
@@ -142,5 +144,6 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Person person = personRepository.findPersonByUsername(username);
+        // TODO: Ctrl + Alt + L
         return new User(person.getUsername(),person.getPassword(),Arrays.asList(new SimpleGrantedAuthority("ROLE_USER")));    }
 }
