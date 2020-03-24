@@ -2,9 +2,8 @@ package com.simbirsoft.javaexample.controller;
 
 import com.simbirsoft.javaexample.dto.PersonDTO;
 import com.simbirsoft.javaexample.service.UserService;
+import com.simbirsoft.javaexample.util.MessageStatus;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContext;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -20,12 +19,12 @@ import java.util.List;
 public class AdminController {
 
     private UserService userService;
-    private MessageSource messageSource;
+    private MessageStatus messageStatus;
 
     @Autowired
-    public AdminController(UserService userService, MessageSource messageSource) {
+    public AdminController(UserService userService, MessageStatus messageStatus) {
         this.userService = userService;
-        this.messageSource = messageSource;
+        this.messageStatus = messageStatus;
     }
 
     /**
@@ -49,10 +48,9 @@ public class AdminController {
     public ResponseEntity addUser(@RequestBody PersonDTO user, LocaleContextHolder localeContext) {
         boolean result = userService.addUser(user);
         if (!result) {
-            // TODO: Метод почения сообщения из messageSource получился больно уж длинный, хорошо бы его куда-нибудь вынести
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(messageSource.getMessage("error.resource.unavailable", null, localeContext.getLocale()));
+            return messageStatus.getMessageErrorStatus("error.resource.unavailable", localeContext);
         }
-        return ResponseEntity.status(HttpStatus.OK).body(messageSource.getMessage("request.ok", null, localeContext.getLocale()));
+        return messageStatus.getMessageOkStatus("request.ok", localeContext);
     }
 
     /**
@@ -66,9 +64,9 @@ public class AdminController {
     public ResponseEntity updateUser(@RequestBody PersonDTO user, LocaleContextHolder localeContext) {
         boolean result = userService.updateUser(user);
         if (!result) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(messageSource.getMessage("error.resource.unavailable", null, localeContext.getLocale()));
+            return messageStatus.getMessageErrorStatus("error.resource.unavailable", localeContext);
         }
-        return ResponseEntity.status(HttpStatus.OK).body(messageSource.getMessage("put.request", null, localeContext.getLocale()));
+        return messageStatus.getMessageOkStatus("put.request", localeContext);
     }
 
     /**
@@ -82,8 +80,8 @@ public class AdminController {
     public ResponseEntity deleteUser(@RequestBody PersonDTO user, LocaleContextHolder localeContext) {
         boolean result = userService.deleteUser(user);
         if (!result) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(messageSource.getMessage("error.resource.unavailable", null, localeContext.getLocale()));
+            return messageStatus.getMessageErrorStatus("error.resource.unavailable", localeContext);
         }
-        return ResponseEntity.status(HttpStatus.OK).body(messageSource.getMessage("delete.request", null, localeContext.getLocale()));
+        return messageStatus.getMessageOkStatus("delete.request",localeContext);
     }
 }
