@@ -41,47 +41,44 @@ public class AdminController {
      * Добавление юзера в БД
      *
      * @param user          обьект который нужно добавить
-     * @param localeContext Контекст локализации
      * @return Возращает Http статус и сообщение о статусе операции
      */
     @PostMapping(value = "/admin", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-    public ResponseEntity addUser(@RequestBody PersonDTO user, LocaleContextHolder localeContext) {
+    public ResponseEntity addUser(@RequestBody PersonDTO user) {
         boolean result = userService.addUser(user);
         if (!result) {
-            return messageStatus.getMessageErrorStatus("error.resource.unavailable", localeContext);
+            return messageStatus.getMessageErrorStatus("error.resource.unavailable");
         }
-        return messageStatus.getMessageOkStatus("request.ok", localeContext);
+        return messageStatus.getMessageOkStatus("request.ok");
     }
 
     /**
      * Обновление юзера в БД
      *
      * @param user          обьект пользователя которого нужно обновить
-     * @param localeContext Контекст локализации
      * @return Возращает Http статус и сообщение о статусе операции
      */
     @PutMapping(value = "/admin", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-    public ResponseEntity updateUser(@RequestBody PersonDTO user, LocaleContextHolder localeContext) {
+    public ResponseEntity updateUser(@RequestBody PersonDTO user) {
         boolean result = userService.updateUser(user);
         if (!result) {
-            return messageStatus.getMessageErrorStatus("error.resource.unavailable", localeContext);
+            return messageStatus.getMessageErrorStatus("error.resource.unavailable");
         }
-        return messageStatus.getMessageOkStatus("put.request", localeContext);
+        return messageStatus.getMessageOkStatus("put.request");
     }
 
     /**
      * Удаление юзера из БД
      *
      * @param user          юзер которого нужно удалить
-     * @param localeContext Контекст локализации
      * @return Возращает Http статус и сообщение о статусе операции
      */
     @DeleteMapping(value = "/admin", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-    public ResponseEntity deleteUser(@RequestBody PersonDTO user, LocaleContextHolder localeContext) {
+    public ResponseEntity deleteUser(@RequestBody PersonDTO user) {
         boolean result = userService.deleteUser(user);
         if (!result) {
-            return messageStatus.getMessageErrorStatus("error.resource.unavailable", localeContext);
+            return messageStatus.getMessageErrorStatus("error.resource.unavailable");
         }
-        return messageStatus.getMessageOkStatus("delete.request",localeContext);
+        return messageStatus.getMessageOkStatus("delete.request");
     }
 }
