@@ -40,7 +40,7 @@ public class AdminController {
     /**
      * Добавление юзера в БД
      *
-     * @param user          обьект который нужно добавить
+     * @param user обьект который нужно добавить
      * @return Возращает Http статус и сообщение о статусе операции
      */
     @PostMapping(value = "/admin", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
@@ -55,7 +55,7 @@ public class AdminController {
     /**
      * Обновление юзера в БД
      *
-     * @param user          обьект пользователя которого нужно обновить
+     * @param user обьект пользователя которого нужно обновить
      * @return Возращает Http статус и сообщение о статусе операции
      */
     @PutMapping(value = "/admin", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
@@ -70,7 +70,7 @@ public class AdminController {
     /**
      * Удаление юзера из БД
      *
-     * @param user          юзер которого нужно удалить
+     * @param user юзер которого нужно удалить
      * @return Возращает Http статус и сообщение о статусе операции
      */
     @DeleteMapping(value = "/admin", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})

@@ -13,7 +13,6 @@ public class MessageStatus {
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(messageStatus.getMessage(message, null, LocaleContextHolder.getLocale()));
-
     }
 
     public ResponseEntity getMessageOkStatus(String message) {
@@ -21,5 +20,4 @@ public class MessageStatus {
                 .status(HttpStatus.OK)
                 .body(messageStatus.getMessage(message, null, LocaleContextHolder.getLocale()));
     }
-
 }
