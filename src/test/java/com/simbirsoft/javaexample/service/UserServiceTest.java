@@ -57,7 +57,6 @@ public class UserServiceTest {
 
     }
 
-    @Ignore
     @Test
     public void loadByUsernameTest(){
         String username = "Вася";
