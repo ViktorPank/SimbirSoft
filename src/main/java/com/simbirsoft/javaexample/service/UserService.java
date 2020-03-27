@@ -45,7 +45,7 @@ public class UserService implements UserDetailsService {
     public boolean addUser(PersonDTO personDTO) {
         Person personDB = personRepository.findByUsername(personDTO.getUsername());
 
-        if (personDB != null) {
+        if (personDB == null) {
             return false;
         }
 
@@ -65,7 +65,7 @@ public class UserService implements UserDetailsService {
     public boolean deleteUser(PersonDTO personDTO) {
         Person personDB = personRepository.findByUsername(personDTO.getUsername());
 
-        if (personDB != null) {
+        if (personDB == null) {
             return false;
         } else personRepository.delete(personDB);
 
@@ -80,8 +80,7 @@ public class UserService implements UserDetailsService {
      */
     public boolean updateUser(PersonDTO personDTO) {
         Person personDB = personRepository.findByUsername(personDTO.getUsername());
-
-        if (personDB != null) {
+        if (personDB == null) {
             return false;
         } else {
             if (!personDB.getAge().equals(personDTO.getAge())) {
@@ -144,7 +143,6 @@ public class UserService implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Person person = personRepository.findPersonByUsername(username);
-        return person;
+        return personRepository.findPersonByUsername(username);
     }
 }
